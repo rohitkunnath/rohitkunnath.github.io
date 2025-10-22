@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohit K - Robotics Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            background-color: #fff;
+        }
+
+        .page-section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+
+        .page-section img {
+            width: 100%;
+            height: auto;
+            display: block;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Interactive Page 5 - Simulation Projects */
+        #page5 {
+            position: relative;
+        }
+
+        #page5 img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Clickable areas overlay on page 5 */
+        .clickable-area {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .clickable-area:hover {
+            border: 2px solid rgba(0, 123, 255, 0.6);
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        /* Position clickable areas based on image layout */
+        /* Autonomous Mobile Robot - Left */
+        #click-amr {
+            top: 20%;
+            left: 5%;
+            width: 25%;
+            height: 60%;
+        }
+
+        /* Robotic Arm - Center */
+        #click-robotic-arm {
+            top: 20%;
+            left: 37.5%;
+            width: 25%;
+            height: 60%;
+        }
+
+        /* Patrolling Robot - Right */
+        #click-patrolling {
+            top: 20%;
+            right: 5%;
+            width: 25%;
+            height: 60%;
+        }
+
+        /* Video Modal */
+        .video-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .video-modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-container {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10000;
+            transition: all 0.3s ease;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: #fff;
+            transform: scale(1.1);
+        }
+
+        .video-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Navigation dots */
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .nav-dots a {
+            display: block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.3);
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-dots a:hover,
+        .nav-dots a.active {
+            background-color: #333;
+            transform: scale(1.3);
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            opacity: 0.5;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .page-section {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .nav-dots {
+                display: none;
+            }
+
+            .page-section {
+                min-height: auto;
+            }
+
+            .clickable-area {
+                border: 1px dashed rgba(0, 123, 255, 0.5) !important;
+            }
+
+            .video-container {
+                width: 95%;
+            }
+
+            .close-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 20px;
+                top: 10px;
+                right: 10px;
+            }
+
+            .video-title {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Hero/Introduction -->
+    <section class="page-section" id="page1">
+        <img src="1.jpg" alt="Rohit K - Electronics and Communication Engineer">
+    </section>
+
+    <!-- Page 2: Skills & Proficiencies -->
+    <section class="page-section" id="page2">
+        <img src="2.jpg" alt="Skills & Proficiencies">
+    </section>
+
+    <!-- Page 3: Experience - Robotics Developer -->
+    <section class="page-section" id="page3">
+        <img src="3.jpg" alt="Experience - Robotics Developer Projects">
+    </section>
+
+    <!-- Page 4: Robotics and IOT Intern Projects -->
+    <section class="page-section" id="page4">
+        <img src="4.jpg" alt="Robotics and IOT Intern Projects">
+    </section>
+
+    <!-- Page 5: Simulation Projects (Interactive) -->
+    <section class="page-section" id="page5">
+        <img src="5.jpg" alt="Simulation Projects">
+
+        <!-- Clickable areas over each project -->
+        <div class="clickable-area" id="click-amr" onclick="openVideo('amr')" title="Click to watch Autonomous Mobile Robot video"></div>
+        <div class="clickable-area" id="click-robotic-arm" onclick="openVideo('roboticArm')" title="Click to watch Robotic Arm video"></div>
+        <div class="clickable-area" id="click-patrolling" onclick="openVideo('patrolling')" title="Click to watch Patrolling Robot video"></div>
+    </section>
+
+    <!-- Page 6: Academic Projects -->
+    <section class="page-section" id="page6">
+        <img src="6.jpg" alt="Academic Projects">
+    </section>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <button class="close-btn" onclick="closeVideo()">&times;</button>
+        <div class="video-container">
+            <video id="projectVideo" controls autoplay>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-title" id="videoTitle"></div>
+        </div>
+    </div>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <a href="#page1" title="Home" aria-label="Go to Home"></a>
+        <a href="#page2" title="Skills" aria-label="Go to Skills"></a>
+        <a href="#page3" title="Experience" aria-label="Go to Experience"></a>
+        <a href="#page4" title="Projects" aria-label="Go to Projects"></a>
+        <a href="#page5" title="Simulation" aria-label="Go to Simulation"></a>
+        <a href="#page6" title="Academic" aria-label="Go to Academic Projects"></a>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+    </div>
+
+    <script>
+        // Video data for each project
+        const projectVideos = {
+            'amr': {
+                src: 'videos/autonomous-mobile-robot.mp4',
+                title: 'Autonomous Mobile Robot - Simulation Demo'
+            },
+            'roboticArm': {
+                src: 'videos/robotic-arm.mp4',
+                title: 'Robotic Arm - Pick and Place Simulation'
+            },
+            'patrolling': {
+                src: 'videos/patrolling-robot.mp4',
+                title: 'Patrolling Robot - Navigation Simulation'
+            }
+        };
+
+        // Open video modal
+        function openVideo(projectKey) {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('projectVideo');
+            const title = document.getElementById('videoTitle');
+            const project = projectVideos[projectKey];
+
+            if (project) {
+                video.src = project.src;
+                title.textContent = project.title;
+                modal.classList.add('active');
+                video.play();
+
+                // Pause scrolling when modal is open
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close video modal
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('projectVideo');
+
+            modal.classList.remove('active');
+            video.pause();
+            video.src = '';
+
+            // Resume scrolling
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close video on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeVideo();
+            }
+        });
+
+        // Close video when clicking outside
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideo();
+            }
+        });
+
+        // Active navigation dot based on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.page-section');
+            const navDots = document.querySelectorAll('.nav-dots a');
+            const scrollIndicator = document.getElementById('scrollIndicator');
+
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navDots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('href') === '#' + current) {
+                    dot.classList.add('active');
+                }
+            });
+
+            // Hide scroll indicator after first scroll
+            if (window.scrollY > 100) {
+                scrollIndicator.style.display = 'none';
+            } else {
+                scrollIndicator.style.display = 'block';
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const sections = ['page1', 'page2', 'page3', 'page4', 'page5', 'page6'];
+            const currentIndex = sections.findIndex(id => {
+                const element = document.getElementById(id);
+                const rect = element.getBoundingClientRect();
+                return rect.top >= -100 && rect.top <= 100;
+            });
+
+            if (e.key === 'ArrowDown' && currentIndex < sections.length - 1) {
+                e.preventDefault();
+                document.getElementById(sections[currentIndex + 1]).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+                e.preventDefault();
+                document.getElementById(sections[currentIndex - 1]).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+
+        console.log('Portfolio website with 6 pages loaded successfully!');
+    </script>
+</body>
+</html>
